@@ -447,6 +447,29 @@ public class RedisUtil {
 	}
 
 	/**
+	 * 返回哈希表 key 中给定域 field 的值。
+	 * 
+	 * @param <T>
+	 *
+	 * @param key
+	 * @param field
+	 * @return 没有返回null
+	 */
+	public <T> List<T> hgetList(String key, String field, Class<T> clazz) {
+		Jedis jedis = null;
+		String res = null;
+		try {
+			jedis = pool.getResource();
+			res = jedis.hget(key, field);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		} finally {
+			returnResource(pool, jedis);
+		}
+		return JSON.parseArray(res, clazz);
+	}
+
+	/**
 	 * 返回哈希表 key 中，一个或多个给定域的值。
 	 * 
 	 * 如果给定的域不存在于哈希表，那么返回一个 nil 值。
