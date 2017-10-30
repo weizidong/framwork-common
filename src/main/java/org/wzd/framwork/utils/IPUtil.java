@@ -144,7 +144,6 @@ public class IPUtil {
 			tempStr = new String(arrayOut.toByteArray());
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return tempStr;
