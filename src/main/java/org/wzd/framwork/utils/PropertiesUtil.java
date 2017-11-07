@@ -43,8 +43,8 @@ public class PropertiesUtil {
 	 */
 	public String getProperty(String key) {
 		String res = props.getProperty(key);
-		LOGGER.debug(key + " ===> " + res);
-		return props.getProperty(key);
+		LOGGER.debug("读取：" + key + " ===> " + res);
+		return res;
 	}
 
 	/**
