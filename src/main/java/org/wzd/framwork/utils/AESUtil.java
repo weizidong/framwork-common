@@ -51,13 +51,26 @@ public class AESUtil {
 	}
 
 	/**
+	 * 解密 解密过程： 1.同加密1-4步 2.将加密后的字符串反纺成byte[]数组 3.将加密内容解密
+	 * 
+	 * @param content
+	 *            解密内容
+	 * @return
+	 */
+	private String AESEncode(String content) {
+		return AESEncode(secretKey, content);
+	}
+
+	/**
 	 * 加密 1.构造密钥生成器 2.根据secretKey规则初始化密钥生成器 3.产生密钥 4.创建和初始化密码器 5.内容加密 6.返回字符串
 	 * 
+	 * @param secretKey
+	 *            密匙
 	 * @param content
 	 *            加密内容
 	 * @return
 	 */
-	public String AESEncode(String content) {
+	public String AESEncode(String secretKey, String content) {
 		try {
 			// 1.构造密钥生成器，指定为AES算法,不区分大小写
 			KeyGenerator keygen = KeyGenerator.getInstance("AES");
@@ -102,11 +115,13 @@ public class AESUtil {
 	/**
 	 * 解密 解密过程： 1.同加密1-4步 2.将加密后的字符串反纺成byte[]数组 3.将加密内容解密
 	 * 
+	 * @param secretKey
+	 *            密匙
 	 * @param content
 	 *            解密内容
 	 * @return
 	 */
-	public String AESDncode(String content) {
+	public String AESDncode(String secretKey, String content) {
 		try {
 			// 1.构造密钥生成器，指定为AES算法,不区分大小写
 			KeyGenerator keygen = KeyGenerator.getInstance("AES");
@@ -146,6 +161,17 @@ public class AESUtil {
 		}
 		// 如果有错就返加null
 		return null;
+	}
+
+	/**
+	 * 解密 解密过程： 1.同加密1-4步 2.将加密后的字符串反纺成byte[]数组 3.将加密内容解密
+	 * 
+	 * @param content
+	 *            解密内容
+	 * @return
+	 */
+	public String AESDncode(String content) {
+		return AESDncode(secretKey, content);
 	}
 
 	public static void main(String[] args) {
