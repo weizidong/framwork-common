@@ -24,7 +24,7 @@ public class TreeUtil {
 	 *            子节点过滤函数
 	 * @return
 	 */
-	public static <T> List<T> bulid(List<T> list, Predicate<? super T> predicate, Function<T, List<T>> fun) {
+	public static <T> List<T> bulid(List<T> list, Predicate<T> predicate, Function<T, List<T>> fun) {
 		List<T> trees = list.stream().filter(predicate).collect(Collectors.toList());
 		trees.forEach(t -> findChildren(t, fun));
 		return trees;
