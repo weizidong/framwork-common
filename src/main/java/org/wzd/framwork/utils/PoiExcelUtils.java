@@ -515,8 +515,8 @@ public class PoiExcelUtils {
 	 * @param needExportDate
 	 *            是否需要显示“导出日期”
 	 */
-	public static void createExcel2FilePath(String sheetName, String title, String filePath, String[] mainDataFields, Object mainData,
-			String[] headers, List<?> detailDataList, final boolean needExportDate) throws Exception {
+	public static void createExcel2FilePath(String sheetName, String title, String filePath, String[] mainDataFields, Object mainData, String[] headers,
+			List<?> detailDataList, final boolean needExportDate) throws Exception {
 		if (ArrayUtils.isEmpty(headers)) {
 			LOGGER.warn("【参数headers为空】");
 			throw new IllegalArgumentException("headers");
@@ -619,8 +619,8 @@ public class PoiExcelUtils {
 	 *            是否需要输出“导出日期”
 	 * @return 主表数据使用了多少行
 	 */
-	private int writeMainData(HSSFWorkbook hssfWorkbook, HSSFSheet hssfSheet, int columnSize, String[] mainDataFields, Object mainData,
-			int startIndex, boolean needExportDate) throws Exception {
+	private int writeMainData(HSSFWorkbook hssfWorkbook, HSSFSheet hssfSheet, int columnSize, String[] mainDataFields, Object mainData, int startIndex,
+			boolean needExportDate) throws Exception {
 		LOGGER.debug("【写主表（mainData）数据】columnSize = {} , mainDataFields = {} , mainData = {}", columnSize, Arrays.toString(mainDataFields), mainData);
 		// 1.计算主表数据需要写多少行，每行写多少个单元格，每行写多少个字段
 		int fieldsSize = mainDataFields.length;
@@ -839,8 +839,8 @@ public class PoiExcelUtils {
 			LOGGER.warn("【参数mainData】");
 			throw new IllegalArgumentException("mainData");
 		}
-		LOGGER.debug("【生成Excel,用于导出】sheetName : " + sheetName + " , title : " + title + " , headers : " + Arrays.toString(headers)
-				+ " , mainDataFields = " + Arrays.toString(mainDataFields));
+		LOGGER.debug("【生成Excel,用于导出】sheetName : " + sheetName + " , title : " + title + " , headers : " + Arrays.toString(headers) + " , mainDataFields = "
+				+ Arrays.toString(mainDataFields));
 		PoiExcelUtils poiExcelUtil = new PoiExcelUtils();
 		// 1.创建 Workbook
 		HSSFWorkbook hssfWorkbook = poiExcelUtil.getHSSFWorkbook();
@@ -963,10 +963,10 @@ public class PoiExcelUtils {
 	 *            存储空值的单元格的坐标，每个坐标以x-y的形式拼接，如2-5表示第二行第五列
 	 * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
 	 */
-	public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, int sheetNo,
-			Set<Integer> columnNumberForSkipValueValidateSet, List<String> noneCellValuePositionList) throws Exception {
-		LOGGER.debug("【读取Excel】excelPath = {} ， skipRows = {} , columnCount = {} , columnNumberForSkipValueValidateSet = {}", excelPath, skipRows,
-				columnCount, columnNumberForSkipValueValidateSet);
+	public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, int sheetNo, Set<Integer> columnNumberForSkipValueValidateSet,
+			List<String> noneCellValuePositionList) throws Exception {
+		LOGGER.debug("【读取Excel】excelPath = {} ， skipRows = {} , columnCount = {} , columnNumberForSkipValueValidateSet = {}", excelPath, skipRows, columnCount,
+				columnNumberForSkipValueValidateSet);
 		if (StringUtils.isBlank(excelPath)) {
 			LOGGER.warn("【参数excelPath为空】");
 			return new ArrayList<String[]>();
@@ -1074,4 +1074,39 @@ public class PoiExcelUtils {
 			IOUtils.closeQuietly(out);
 		}
 	}
+
+	public static void main(String[] args) {
+		/* 格式化类型有：
+		if ("sex".equals(type)) {
+			return "1".equals(val.toString()) ? "男" : "2".equals(val.toString()) ? "女" : "未知";
+		} else if ("sub".equals(type)) {
+			return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知";
+		} else if ("audit".equals(type)) {
+			return "1" == val ? "审核中" : "2" == val ? "审核成功" : "3" == val ? "审核失败" : "未审核";
+		} else if ("mar".equals(type)) {
+			return "1" == val ? "已婚" : "2" == val ? "未婚" : "未知";
+		} else if ("user".equals(type)) {
+			return "2" == val ? "职工认证用户" : "普通用户";
+		} else if ("exp".equals(type)) {
+			return (Boolean) val ? "有" : "无";
+		} else if ("age".equals(type)) {
+			return val == null ? "无" : DateUtil.getAge((Date) val);
+		} else if ("date".equals(type)) {
+			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATE);
+		} else if ("time".equals(type)) {
+			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_TIME);
+		} else if ("datetime".equals(type)) {
+			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATETIME);
+		} else if (StringUtils.isBlank(val.toString())) {
+			return "无";
+		}
+		*/
+		/*
+		 *多个字段显示在同一单元格.用|隔开,例如:起止时间@start|end@datetime@4000 
+		 */
+		String[] headers = new String[] { "列标题@bean字段@格式化类型@列宽" };
+		List<Object> dataList = new ArrayList<>();
+		PoiExcelUtils.createExcel2FilePath("XXXX表", "XXXX表单", "/excel/XXXX.exl", headers, dataList);
+	}
+
 }
