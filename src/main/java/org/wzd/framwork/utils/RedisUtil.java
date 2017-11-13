@@ -142,7 +142,7 @@ public class RedisUtil {
 		Jedis jedis = null;
 		try {
 			jedis = pool.getResource();
-			return jedis.del((String[]) Arrays.stream(keys).map((k) -> k + PATH_KEY).toArray());
+			return jedis.del(Arrays.stream(keys).map((k) -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return 0L;
@@ -237,7 +237,7 @@ public class RedisUtil {
 		List<T> values = null;
 		try {
 			jedis = pool.getResource();
-			List<String> list = jedis.mget((String[]) Arrays.stream(keys).map((k) -> k + PATH_KEY).toArray());
+			List<String> list = jedis.mget(Arrays.stream(keys).map((k) -> k + PATH_KEY).toArray(String[]::new));
 			values = list.stream().map((v) -> JSON.parseObject(v, clazz)).collect(Collectors.toList());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -681,7 +681,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			String[] strs = (String[]) Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray();
+			String[] strs = Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray(String[]::new);
 			res = jedis.lpush(key + PATH_KEY, strs);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -711,7 +711,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			String[] strs = (String[]) Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray();
+			String[] strs = Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray(String[]::new);
 			res = jedis.rpush(key + PATH_KEY, strs);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -1090,7 +1090,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sdiff((String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
+			res = jedis.sdiff(Arrays.stream(keys).map(k -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1119,7 +1119,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sdiffstore(dstkey + PATH_KEY, (String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
+			res = jedis.sdiffstore(dstkey + PATH_KEY, Arrays.stream(keys).map(k -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1143,7 +1143,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sinter((String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
+			res = jedis.sinter(Arrays.stream(keys).map(k -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1168,7 +1168,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sinterstore(dstkey + PATH_KEY, (String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
+			res = jedis.sinterstore(dstkey + PATH_KEY, Arrays.stream(keys).map(k -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1192,7 +1192,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sunion((String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
+			res = jedis.sunion(Arrays.stream(keys).map(k -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1217,7 +1217,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sunionstore(dstkey + PATH_KEY, (String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
+			res = jedis.sunionstore(dstkey + PATH_KEY, Arrays.stream(keys).map(k -> k + PATH_KEY).toArray(String[]::new));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
