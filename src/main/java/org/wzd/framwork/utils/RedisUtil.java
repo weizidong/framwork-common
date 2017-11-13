@@ -26,6 +26,7 @@ public class RedisUtil {
 	private static JedisPool pool = null;
 	// redis连接
 	private static RedisUtil ru = new RedisUtil();
+	private final String PATH_KEY = MD5Util.getMD5ofStr(this.getClass().getResource("").getPath());
 
 	public static JedisPool getPool() {
 		return pool;
@@ -79,7 +80,7 @@ public class RedisUtil {
 		String value = null;
 		try {
 			jedis = pool.getResource();
-			value = jedis.get(key);
+			value = jedis.get(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -93,7 +94,7 @@ public class RedisUtil {
 		String value = null;
 		try {
 			jedis = pool.getResource();
-			value = jedis.get(key);
+			value = jedis.get(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -119,7 +120,7 @@ public class RedisUtil {
 		Jedis jedis = null;
 		try {
 			jedis = pool.getResource();
-			return jedis.set(key, JSON.toJSONString(value));
+			return jedis.set(key + PATH_KEY, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return "0";
@@ -141,7 +142,7 @@ public class RedisUtil {
 		Jedis jedis = null;
 		try {
 			jedis = pool.getResource();
-			return jedis.del(keys);
+			return jedis.del((String[]) Arrays.stream(keys).map((k) -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return 0L;
@@ -160,7 +161,7 @@ public class RedisUtil {
 		Jedis jedis = null;
 		try {
 			jedis = pool.getResource();
-			return jedis.exists(key);
+			return jedis.exists(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return false;
@@ -184,7 +185,7 @@ public class RedisUtil {
 		Jedis jedis = null;
 		try {
 			jedis = pool.getResource();
-			return jedis.setnx(key, JSON.toJSONString(value));
+			return jedis.setnx(key + PATH_KEY, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			return 0L;
@@ -211,7 +212,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.setex(key, seconds, JSON.toJSONString(value));
+			res = jedis.setex(key + PATH_KEY, seconds, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -236,7 +237,7 @@ public class RedisUtil {
 		List<T> values = null;
 		try {
 			jedis = pool.getResource();
-			List<String> list = jedis.mget(keys);
+			List<String> list = jedis.mget((String[]) Arrays.stream(keys).map((k) -> k + PATH_KEY).toArray());
 			values = list.stream().map((v) -> JSON.parseObject(v, clazz)).collect(Collectors.toList());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -313,7 +314,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.getSet(key, JSON.toJSONString(value));
+			res = jedis.getSet(key + PATH_KEY, JSON.toJSONString(value));
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -336,7 +337,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.strlen(key);
+			res = jedis.strlen(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -363,7 +364,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hset(key, field, JSON.toJSONString(value));
+			res = jedis.hset(key + PATH_KEY, field, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -389,7 +390,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hsetnx(key, field, JSON.toJSONString(value));
+			res = jedis.hsetnx(key + PATH_KEY, field, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -414,7 +415,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hmset(key, hash);
+			res = jedis.hmset(key + PATH_KEY, hash);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -437,7 +438,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hget(key, field);
+			res = jedis.hget(key + PATH_KEY, field);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -460,7 +461,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hget(key, field);
+			res = jedis.hget(key + PATH_KEY, field);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -488,7 +489,7 @@ public class RedisUtil {
 		List<T> res = null;
 		try {
 			jedis = pool.getResource();
-			List<String> list = jedis.hmget(key, fields);
+			List<String> list = jedis.hmget(key + PATH_KEY, fields);
 			res = list.stream().map((v) -> JSON.parseObject(v, clazz)).collect(Collectors.toList());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -521,7 +522,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hincrBy(key, field, value);
+			res = jedis.hincrBy(key + PATH_KEY, field, value);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -542,7 +543,7 @@ public class RedisUtil {
 		Boolean res = false;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hexists(key, field);
+			res = jedis.hexists(key + PATH_KEY, field);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -562,7 +563,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hlen(key);
+			res = jedis.hlen(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -585,7 +586,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hdel(key, fields);
+			res = jedis.hdel(key + PATH_KEY, fields);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -605,7 +606,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hkeys(key);
+			res = jedis.hkeys(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -627,7 +628,7 @@ public class RedisUtil {
 		List<T> res = null;
 		try {
 			jedis = pool.getResource();
-			List<String> list = jedis.hvals(key);
+			List<String> list = jedis.hvals(key + PATH_KEY);
 			res = list.stream().map((v) -> JSON.parseObject(v, clazz)).collect(Collectors.toList());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -650,7 +651,7 @@ public class RedisUtil {
 		Map<String, String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.hgetAll(key);
+			res = jedis.hgetAll(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -681,7 +682,7 @@ public class RedisUtil {
 		try {
 			jedis = pool.getResource();
 			String[] strs = (String[]) Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray();
-			res = jedis.lpush(key, strs);
+			res = jedis.lpush(key + PATH_KEY, strs);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -711,7 +712,7 @@ public class RedisUtil {
 		try {
 			jedis = pool.getResource();
 			String[] strs = (String[]) Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray();
-			res = jedis.rpush(key, strs);
+			res = jedis.rpush(key + PATH_KEY, strs);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -743,7 +744,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.linsert(key, where, JSON.toJSONString(pivot), JSON.toJSONString(value));
+			res = jedis.linsert(key + PATH_KEY, where, JSON.toJSONString(pivot), JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -770,7 +771,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.lset(key, index, JSON.toJSONString(value));
+			res = jedis.lset(key + PATH_KEY, index, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -801,7 +802,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.lrem(key, count, JSON.toJSONString(value));
+			res = jedis.lrem(key + PATH_KEY, count, JSON.toJSONString(value));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -831,7 +832,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.ltrim(key, start, end);
+			res = jedis.ltrim(key + PATH_KEY, start, end);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -853,7 +854,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.lpop(key);
+			res = jedis.lpop(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -875,7 +876,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.rpop(key);
+			res = jedis.rpop(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -908,7 +909,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.rpoplpush(srckey, dstkey);
+			res = jedis.rpoplpush(srckey + PATH_KEY, dstkey + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -937,7 +938,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.lindex(key, index);
+			res = jedis.lindex(key + PATH_KEY, index);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -961,7 +962,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.llen(key);
+			res = jedis.llen(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
@@ -989,7 +990,7 @@ public class RedisUtil {
 		List<T> res = null;
 		try {
 			jedis = pool.getResource();
-			List<String> list = jedis.lrange(key, start, end);
+			List<String> list = jedis.lrange(key + PATH_KEY, start, end);
 			res = list.stream().map((v) -> JSON.parseObject(v, clazz)).collect(Collectors.toList());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -1014,7 +1015,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sadd(key, members);
+			res = jedis.sadd(key + PATH_KEY, members);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1039,7 +1040,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.srem(key, members);
+			res = jedis.srem(key + PATH_KEY, members);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1062,7 +1063,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.spop(key);
+			res = jedis.spop(key + PATH_KEY);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1089,7 +1090,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sdiff(keys);
+			res = jedis.sdiff((String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1118,7 +1119,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sdiffstore(dstkey, keys);
+			res = jedis.sdiffstore(dstkey + PATH_KEY, (String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1142,7 +1143,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sinter(keys);
+			res = jedis.sinter((String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1167,7 +1168,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sinterstore(dstkey, keys);
+			res = jedis.sinterstore(dstkey + PATH_KEY, (String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1191,7 +1192,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sunion(keys);
+			res = jedis.sunion((String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1216,7 +1217,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sunionstore(dstkey, keys);
+			res = jedis.sunionstore(dstkey + PATH_KEY, (String[]) Arrays.stream(keys).map(k -> k + PATH_KEY).toArray());
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1244,7 +1245,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.smove(srckey, dstkey, member);
+			res = jedis.smove(srckey + PATH_KEY, dstkey + PATH_KEY, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1267,7 +1268,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.scard(key);
+			res = jedis.scard(key + PATH_KEY);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1291,7 +1292,7 @@ public class RedisUtil {
 		Boolean res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.sismember(key, member);
+			res = jedis.sismember(key + PATH_KEY, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1314,7 +1315,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.srandmember(key);
+			res = jedis.srandmember(key + PATH_KEY);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1337,7 +1338,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.smembers(key);
+			res = jedis.smembers(key + PATH_KEY);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1365,7 +1366,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zadd(key, score, member);
+			res = jedis.zadd(key + PATH_KEY, score, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1390,7 +1391,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zrem(key, members);
+			res = jedis.zrem(key + PATH_KEY, members);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1415,7 +1416,7 @@ public class RedisUtil {
 		Double res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zincrby(key, score, member);
+			res = jedis.zincrby(key + PATH_KEY, score, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1442,7 +1443,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zrank(key, member);
+			res = jedis.zrank(key + PATH_KEY, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1469,7 +1470,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zrevrank(key, member);
+			res = jedis.zrevrank(key + PATH_KEY, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1500,7 +1501,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zrevrange(key, start, end);
+			res = jedis.zrevrange(key + PATH_KEY, start, end);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1525,7 +1526,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zrevrangeByScore(key, max, min);
+			res = jedis.zrevrangeByScore(key + PATH_KEY, max, min);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1550,7 +1551,7 @@ public class RedisUtil {
 		Set<String> res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zrevrangeByScore(key, max, min);
+			res = jedis.zrevrangeByScore(key + PATH_KEY, max, min);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1575,7 +1576,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zcount(key, min, max);
+			res = jedis.zcount(key + PATH_KEY, min, max);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1598,7 +1599,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zcard(key);
+			res = jedis.zcard(key + PATH_KEY);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1622,7 +1623,7 @@ public class RedisUtil {
 		Double res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zscore(key, member);
+			res = jedis.zscore(key + PATH_KEY, member);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1647,7 +1648,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zremrangeByRank(key, start, end);
+			res = jedis.zremrangeByRank(key + PATH_KEY, start, end);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1672,7 +1673,7 @@ public class RedisUtil {
 		Long res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.zremrangeByScore(key, start, end);
+			res = jedis.zremrangeByScore(key + PATH_KEY, start, end);
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
@@ -1724,7 +1725,7 @@ public class RedisUtil {
 		String res = null;
 		try {
 			jedis = pool.getResource();
-			res = jedis.type(key);
+			res = jedis.type(key + PATH_KEY);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		} finally {
