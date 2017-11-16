@@ -325,16 +325,10 @@ public class PoiExcelUtils {
 	private Object changeType(Object val, String type) {
 		if ("sex".equals(type)) {
 			return "1".equals(val.toString()) ? "男" : "2".equals(val.toString()) ? "女" : "未知";
-		} else if ("sub".equals(type)) {
-			return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知";
 		} else if ("audit".equals(type)) {
 			return "1" == val ? "审核中" : "2" == val ? "审核成功" : "3" == val ? "审核失败" : "未审核";
-		} else if ("mar".equals(type)) {
-			return "1" == val ? "已婚" : "2" == val ? "未婚" : "未知";
-		} else if ("user".equals(type)) {
-			return "2" == val ? "职工认证用户" : "普通用户";
-		} else if ("exp".equals(type)) {
-			return (Boolean) val ? "有" : "无";
+		} else if ("money".equals(type)) {
+			return val == null ? "0.00" : val;
 		} else if ("age".equals(type)) {
 			return val == null ? "无" : DateUtil.getAge((Date) val);
 		} else if ("date".equals(type)) {
@@ -1076,33 +1070,25 @@ public class PoiExcelUtils {
 	}
 
 	public static void main(String[] args) {
-		/* 格式化类型有：
-		if ("sex".equals(type)) {
-			return "1".equals(val.toString()) ? "男" : "2".equals(val.toString()) ? "女" : "未知";
-		} else if ("sub".equals(type)) {
-			return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知";
-		} else if ("audit".equals(type)) {
-			return "1" == val ? "审核中" : "2" == val ? "审核成功" : "3" == val ? "审核失败" : "未审核";
-		} else if ("mar".equals(type)) {
-			return "1" == val ? "已婚" : "2" == val ? "未婚" : "未知";
-		} else if ("user".equals(type)) {
-			return "2" == val ? "职工认证用户" : "普通用户";
-		} else if ("exp".equals(type)) {
-			return (Boolean) val ? "有" : "无";
-		} else if ("age".equals(type)) {
-			return val == null ? "无" : DateUtil.getAge((Date) val);
-		} else if ("date".equals(type)) {
-			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATE);
-		} else if ("time".equals(type)) {
-			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_TIME);
-		} else if ("datetime".equals(type)) {
-			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATETIME);
-		} else if (StringUtils.isBlank(val.toString())) {
-			return "无";
-		}
-		*/
 		/*
-		 *多个字段显示在同一单元格.用|隔开,例如:起止时间@start|end@datetime@4000 
+		 * 格式化类型有： if ("sex".equals(type)) { return "1".equals(val.toString()) ? "男" :
+		 * "2".equals(val.toString()) ? "女" : "未知"; } else if ("sub".equals(type)) {
+		 * return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知"; } else if
+		 * ("audit".equals(type)) { return "1" == val ? "审核中" : "2" == val ? "审核成功" :
+		 * "3" == val ? "审核失败" : "未审核"; } else if ("mar".equals(type)) { return "1" ==
+		 * val ? "已婚" : "2" == val ? "未婚" : "未知"; } else if ("user".equals(type)) {
+		 * return "2" == val ? "职工认证用户" : "普通用户"; } else if ("exp".equals(type)) {
+		 * return (Boolean) val ? "有" : "无"; } else if ("age".equals(type)) { return val
+		 * == null ? "无" : DateUtil.getAge((Date) val); } else if ("date".equals(type))
+		 * { return val == null ? "无" : DateUtil.formatDate((Date) val,
+		 * DateUtil.P_DATE); } else if ("time".equals(type)) { return val == null ? "无"
+		 * : DateUtil.formatDate((Date) val, DateUtil.P_TIME); } else if
+		 * ("datetime".equals(type)) { return val == null ? "无" :
+		 * DateUtil.formatDate((Date) val, DateUtil.P_DATETIME); } else if
+		 * (StringUtils.isBlank(val.toString())) { return "无"; }
+		 */
+		/*
+		 * 多个字段显示在同一单元格.用|隔开,例如:起止时间@start|end@datetime@4000
 		 */
 		String[] headers = new String[] { "列标题@bean字段@格式化类型@列宽" };
 		List<Object> dataList = new ArrayList<>();
