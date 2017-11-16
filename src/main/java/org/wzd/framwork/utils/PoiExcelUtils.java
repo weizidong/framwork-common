@@ -326,7 +326,9 @@ public class PoiExcelUtils {
 		if ("sex".equals(type)) {
 			return "1".equals(val.toString()) ? "男" : "2".equals(val.toString()) ? "女" : "未知";
 		} else if ("audit".equals(type)) {
-			return "1" == val ? "审核中" : "2" == val ? "审核成功" : "3" == val ? "审核失败" : "未审核";
+			return "1".equals(val.toString()) ? "审核中" : "2".equals(val.toString()) ? "审核通过" : "3".equals(val.toString()) ? "审核失败" : "未审核";
+		} else if ("user".equals(type)) {
+			return "2".equals(val.toString()) ? "教师" : "1".equals(val.toString()) ? "学生" : "未知";
 		} else if ("money".equals(type)) {
 			return val == null ? "0.00" : val;
 		} else if ("age".equals(type)) {
