@@ -57,7 +57,7 @@ public class AESUtil {
 	 *            解密内容
 	 * @return
 	 */
-	private String AESEncode(String content) {
+	public String AESEncode(String content) {
 		return AESEncode(secretKey, content);
 	}
 
