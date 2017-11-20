@@ -332,13 +332,13 @@ public class PoiExcelUtils {
 		} else if ("money".equals(type)) {
 			return val == null ? "0.00" : val;
 		} else if ("age".equals(type)) {
-			return val == null ? "无" : DateUtil.getAge((Date) val);
+			return val == null ? "无" : DateUtil.getAge(DateUtil.parseToDate(val.toString(), DateUtil.P_TIMESTAMP));
 		} else if ("date".equals(type)) {
-			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATE);
+			return val == null ? "无" : DateUtil.formatDate(DateUtil.parseToDate(val.toString(), DateUtil.P_TIMESTAMP), DateUtil.P_DATE);
 		} else if ("time".equals(type)) {
-			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_TIME);
+			return val == null ? "无" : DateUtil.formatDate(DateUtil.parseToDate(val.toString(), DateUtil.P_TIMESTAMP), DateUtil.P_TIME);
 		} else if ("datetime".equals(type)) {
-			return val == null ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATETIME);
+			return val == null ? "无" : DateUtil.formatDate(DateUtil.parseToDate(val.toString(), DateUtil.P_TIMESTAMP), DateUtil.P_DATETIME);
 		} else if (StringUtils.isBlank(val.toString())) {
 			return "无";
 		}
