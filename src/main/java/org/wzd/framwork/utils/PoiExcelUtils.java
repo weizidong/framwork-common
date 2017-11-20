@@ -330,7 +330,7 @@ public class PoiExcelUtils {
 		} else if ("user".equals(type)) {
 			return "2".equals(val.toString()) ? "教师" : "1".equals(val.toString()) ? "学生" : "未知";
 		} else if ("money".equals(type)) {
-			return val == null ? "0.00" : val;
+			return val == null || StringUtils.isBlank(val.toString()) ? "0.00" : val;
 		} else if ("age".equals(type)) {
 			return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.getAge((Date) val);
 		} else if ("date".equals(type)) {
