@@ -152,6 +152,28 @@ public class RedisUtil {
 	}
 
 	/**
+	 * 删除给定的一个 。
+	 * 
+	 * 不存在的 key 会被忽略。
+	 * 
+	 * @param keys
+	 *            一个key 也可以使是string 数组
+	 * @return 被删除 key 的数量。
+	 */
+	public Long del(String key) {
+		Jedis jedis = null;
+		try {
+			jedis = pool.getResource();
+			return jedis.del(key + PATH_KEY);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			return 0L;
+		} finally {
+			returnResource(pool, jedis);
+		}
+	}
+
+	/**
 	 * 检查给定 key 是否存在。
 	 *
 	 * @param key
