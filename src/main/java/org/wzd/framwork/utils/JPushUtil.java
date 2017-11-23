@@ -110,14 +110,8 @@ public class JPushUtil {
             LOGGER.info("推送消息结果 - " + result);
         } catch (APIConnectionException e) {
             LOGGER.error("连接错误。应该稍后重试。 ", e);
-            LOGGER.error("Sendno: " + payload.getSendno());
         } catch (APIRequestException e) {
-            LOGGER.error("从JPush服务器错误响应。应该审查和修复它。 ", e);
-            LOGGER.error("HTTP Status: " + e.getStatus());
-            LOGGER.error("Error Code: " + e.getErrorCode());
-            LOGGER.error("Error Message: " + e.getErrorMessage());
-            LOGGER.error("Msg ID: " + e.getMsgId());
-            LOGGER.error("Sendno: " + payload.getSendno());
+            LOGGER.error("推送消息：" + msg + "  到  " + tag + "失败！", e);
         }
     }
 
@@ -152,14 +146,8 @@ public class JPushUtil {
             LOGGER.info("推送消息结果 - " + result);
         } catch (APIConnectionException e) {
             LOGGER.error("连接错误。应该稍后重试。 ", e);
-            LOGGER.error("Sendno: " + payload.getSendno());
         } catch (APIRequestException e) {
-            LOGGER.error("从JPush服务器错误响应。应该审查和修复它。 ", e);
-            LOGGER.info("HTTP Status: " + e.getStatus());
-            LOGGER.info("Error Code: " + e.getErrorCode());
-            LOGGER.info("Error Message: " + e.getErrorMessage());
-            LOGGER.info("Msg ID: " + e.getMsgId());
-            LOGGER.error("Sendno: " + payload.getSendno());
+            LOGGER.error("推送消息：" + msg + "失败！", e);
         }
     }
 
