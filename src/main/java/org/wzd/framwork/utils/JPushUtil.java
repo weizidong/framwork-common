@@ -100,7 +100,7 @@ public class JPushUtil {
      * @param tag 推送目标
      * @param msg 消息内容
      */
-    public static void SendSinglePush(String tag, String msg) {
+    public static void sendSinglePush(String tag, String msg) {
         JPushClient jpushClient = new JPushClient(getMasterSecret(), getAppKey(), null, ClientConfig.getInstance());
         PushPayload payload = buildPushObject_android_and_iosSingle(tag, msg);
         try {
@@ -142,7 +142,7 @@ public class JPushUtil {
      *
      * @param msg 内容
      */
-    public static void SendPush(String msg) {
+    public static void sendPush(String msg) {
         JPushClient jpushClient = new JPushClient(getMasterSecret(), getAppKey(), null, ClientConfig.getInstance());
         PushPayload payload = buildPushObject_android_and_ios(msg);
         try {
