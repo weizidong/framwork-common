@@ -303,6 +303,8 @@ public class PoiExcelUtils {
     private Object changeType(Object val, String type) {
         if ("sex".equals(type)) {
             return "1".equals(val.toString()) ? "男" : "2".equals(val.toString()) ? "女" : "未知";
+        } else if ("num".equals(type)) {
+            return val == null || StringUtils.isBlank(val.toString()) ? "0" : val;
         } else if ("audit".equals(type)) {
             return "1".equals(val.toString()) ? "审核中" : "2".equals(val.toString()) ? "审核通过" : "3".equals(val.toString()) ? "审核失败" : "未审核";
         } else if ("user".equals(type)) {
@@ -329,6 +331,7 @@ public class PoiExcelUtils {
      * @param hssfWorkbook {@link HSSFWorkbook}
      * @return {@link HSSFCellStyle}
      */
+
     private HSSFCellStyle createTitleCellStyle(HSSFWorkbook hssfWorkbook) {
         LOGGER.debug("【创建标题和表头单元格样式】");
         // 单元格的样式
@@ -971,7 +974,7 @@ public class PoiExcelUtils {
 
     public static void main(String[] args) {
         /*
-		 * 格式化类型有： if ("sex".equals(type)) { return "1".equals(val.toString()) ? "男" :
+         * 格式化类型有： if ("sex".equals(type)) { return "1".equals(val.toString()) ? "男" :
 		 * "2".equals(val.toString()) ? "女" : "未知"; } else if ("sub".equals(type)) {
 		 * return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知"; } else if
 		 * ("audit".equals(type)) { return "1" == val ? "审核中" : "2" == val ? "审核成功" :
@@ -987,8 +990,8 @@ public class PoiExcelUtils {
 		 * DateUtil.formatDate((Date) val, DateUtil.P_DATETIME); } else if
 		 * (StringUtils.isBlank(val.toString())) { return "无"; }
 		 */
-		/*
-		 * 多个字段显示在同一单元格.用|隔开,例如:起止时间@start|end@datetime@4000
+        /*
+         * 多个字段显示在同一单元格.用|隔开,例如:起止时间@start|end@datetime@4000
 		 */
         String[] headers = new String[]{"列标题@bean字段@格式化类型@列宽"};
         List<Object> dataList = new ArrayList<>();
