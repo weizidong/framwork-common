@@ -99,12 +99,13 @@ public class JPushUtil {
     /**
      * 给一个目标发信息
      *
-     * @param tag 推送目标
-     * @param msg 消息内容
+     * @param tag   推送目标
+     * @param title 标题
+     * @param msg   消息内容
      */
-    public static void sendSinglePush(String tag, String msg) {
+    public static void sendSinglePush(String tag, String title, String msg) {
         JPushClient jpushClient = new JPushClient(getMasterSecret(), getAppKey(), null, ClientConfig.getInstance());
-        PushPayload payload = buildPushObject_android_and_iosSingle(tag, msg);
+        PushPayload payload = buildPushObject_android_and_iosSingle(tag, title, msg);
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOGGER.info("推送消息结果 - " + result);
@@ -116,18 +117,28 @@ public class JPushUtil {
     }
 
     /**
-     * 构建推送对象：平台是 Android和iOS，目标是 tag 的设备，内容是 msg。
+     * 给一个目标发信息
+     *
+     * @param tag 推送目标
+     * @param msg 消息内容
+     */
+    public static void sendSinglePush(String tag, String msg) {
+        sendSinglePush(tag, "", msg);
+    }
+
+    /**
+     * 构建推送对象：平台是 Android和iOS，目标是 tag 的设备，标题是 title。内容是 msg。
      *
      * @param tag 目标
      * @param msg 内容
      * @return
      */
-    public static PushPayload buildPushObject_android_and_iosSingle(String tag, String msg) {
+    public static PushPayload buildPushObject_android_and_iosSingle(String tag, String title, String msg) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.alias(tag))
                 .setNotification(Notification.newBuilder().setAlert(msg)
-                        .addPlatformNotification(AndroidNotification.newBuilder().setTitle("")
+                        .addPlatformNotification(AndroidNotification.newBuilder().setTitle(title)
                                 .build())
                         .addPlatformNotification(IosNotification.newBuilder().incrBadge(1).build()).build())
                 .build();
@@ -136,11 +147,12 @@ public class JPushUtil {
     /**
      * 给所有设备推送消息
      *
-     * @param msg 内容
+     * @param title 标题
+     * @param msg   内容
      */
-    public static void sendPush(String msg) {
+    public static void sendPush(String title, String msg) {
         JPushClient jpushClient = new JPushClient(getMasterSecret(), getAppKey(), null, ClientConfig.getInstance());
-        PushPayload payload = buildPushObject_android_and_ios(msg);
+        PushPayload payload = buildPushObject_android_and_ios(title, msg);
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOGGER.info("推送消息结果 - " + result);
@@ -152,13 +164,23 @@ public class JPushUtil {
     }
 
     /**
-     * 构建推送对象：平台是 Android和iOS，目标是 所有设备，内容是 msg。
+     * 给所有设备推送消息
      *
      * @param msg 内容
      */
-    public static PushPayload buildPushObject_android_and_ios(String msg) {
+    public static void sendPush(String msg) {
+        sendPush("", msg);
+    }
+
+    /**
+     * 构建推送对象：平台是 Android和iOS，目标是 所有设备，内容是 msg。
+     *
+     * @param title 标题
+     * @param msg   内容
+     */
+    public static PushPayload buildPushObject_android_and_ios(String title, String msg) {
         return PushPayload.newBuilder().setPlatform(Platform.android_ios()).setAudience(Audience.all())
-                .setNotification(Notification.newBuilder().setAlert(msg).addPlatformNotification(AndroidNotification.newBuilder().setTitle("").build())
+                .setNotification(Notification.newBuilder().setAlert(msg).addPlatformNotification(AndroidNotification.newBuilder().setTitle(title).build())
                         .addPlatformNotification(IosNotification.newBuilder().incrBadge(1).build()).build())
                 .build();
     }
