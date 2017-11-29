@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
  * 极光推送工具类
  */
 public class JPushUtil {
-    private static final Logger LOGGER = LogManager.getLogger(RedisUtil.class);
+    private static final Logger LOGGER = LogManager.getLogger(JPushUtil.class);
     private static PropertiesUtil pros = new PropertiesUtil("/configs/jpush.properties");
 
     private static String getAppKey() {
