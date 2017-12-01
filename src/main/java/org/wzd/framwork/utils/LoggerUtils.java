@@ -43,6 +43,19 @@ public class LoggerUtils {
     }
 
     /**
+     * warn 输出
+     *
+     * @param clazz   目标.Class
+     * @param message 输出信息
+     */
+    public static void warn(Class<? extends Object> clazz, Object message) {
+        if (!isDebug)
+            return;
+        Logger logger = LogManager.getLogger(clazz);
+        logger.warn(JSON.toJSONString(message));
+    }
+
+    /**
      * Debug 输出
      *
      * @param clazz     目标.Class
