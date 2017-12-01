@@ -30,6 +30,19 @@ public class LoggerUtils {
     }
 
     /**
+     * Debug 输出
+     *
+     * @param clazz   目标.Class
+     * @param message 输出信息
+     */
+    public static void debug(Class<? extends Object> clazz, String message) {
+        if (!isDebug)
+            return;
+        Logger logger = LogManager.getLogger(clazz);
+        logger.debug(message);
+    }
+
+    /**
      * info 输出
      *
      * @param clazz   目标.Class
@@ -43,6 +56,19 @@ public class LoggerUtils {
     }
 
     /**
+     * info 输出
+     *
+     * @param clazz   目标.Class
+     * @param message 输出信息
+     */
+    public static void info(Class<? extends Object> clazz, String message) {
+        if (!isDebug)
+            return;
+        Logger logger = LogManager.getLogger(clazz);
+        logger.info(message);
+    }
+
+    /**
      * warn 输出
      *
      * @param clazz   目标.Class
@@ -53,6 +79,19 @@ public class LoggerUtils {
             return;
         Logger logger = LogManager.getLogger(clazz);
         logger.warn(JSON.toJSONString(message));
+    }
+
+    /**
+     * warn 输出
+     *
+     * @param clazz   目标.Class
+     * @param message 输出信息
+     */
+    public static void warn(Class<? extends Object> clazz, String message) {
+        if (!isDebug)
+            return;
+        Logger logger = LogManager.getLogger(clazz);
+        logger.warn(message);
     }
 
     /**
