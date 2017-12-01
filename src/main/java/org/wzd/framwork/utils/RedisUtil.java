@@ -1,21 +1,19 @@
 package org.wzd.framwork.utils;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import redis.clients.jedis.BinaryClient.LIST_POSITION;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.alibaba.fastjson.JSON;
-
-import redis.clients.jedis.BinaryClient.LIST_POSITION;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * Redis工具类
@@ -379,7 +377,7 @@ public class RedisUtil {
         Long res = null;
         try {
             jedis = pool.getResource();
-            res = jedis.hset(key, field, JSON.toJSONString(value));
+            res = jedis.hset(key, field, value == null ? "" : JSON.toJSONString(value));
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         } finally {
