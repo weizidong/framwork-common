@@ -23,10 +23,7 @@ public class LoggerUtils {
      * @param message 输出信息
      */
     public static void debug(Class<? extends Object> clazz, Object message) {
-        if (!isDebug)
-            return;
-        Logger logger = LogManager.getLogger(clazz);
-        logger.debug(JSON.toJSONString(message));
+        debug(clazz, JSON.toJSONString(message));
     }
 
     /**
@@ -49,10 +46,7 @@ public class LoggerUtils {
      * @param message 输出信息
      */
     public static void info(Class<? extends Object> clazz, Object message) {
-        if (!isDebug)
-            return;
-        Logger logger = LogManager.getLogger(clazz);
-        logger.info(JSON.toJSONString(message));
+        info(clazz, JSON.toJSONString(message));
     }
 
     /**
@@ -75,10 +69,7 @@ public class LoggerUtils {
      * @param message 输出信息
      */
     public static void warn(Class<? extends Object> clazz, Object message) {
-        if (!isDebug)
-            return;
-        Logger logger = LogManager.getLogger(clazz);
-        logger.warn(JSON.toJSONString(message));
+        warn(clazz, JSON.toJSONString(message));
     }
 
     /**
