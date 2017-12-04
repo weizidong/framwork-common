@@ -24,7 +24,7 @@ public class RedisUtil {
     private static JedisPool pool = null;
     // redis连接
     private static RedisUtil ru = new RedisUtil();
-//	private final String PATH_KEY = MD5Util.getMD5ofStr(this.getClass().getResource("").getPath());
+    public final String PATH_KEY = RedisUtil.class.getResource("").getPath().replaceAll("/|(:/)", "_").toUpperCase();
 
     public static JedisPool getPool() {
         return pool;
@@ -1746,9 +1746,4 @@ public class RedisUtil {
         RedisUtil.ru = ru;
     }
 
-    public static void main(String[] args) {
-        RedisUtil util = RedisUtil.getRu();
-        util.set("mysql", "asdasdasdasd");
-        LOGGER.debug(util.get("mysql", String.class));
-    }
 }
