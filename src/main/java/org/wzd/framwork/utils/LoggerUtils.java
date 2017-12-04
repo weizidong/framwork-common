@@ -56,8 +56,6 @@ public class LoggerUtils {
      * @param message 输出信息
      */
     public static void info(Class<? extends Object> clazz, String message) {
-        if (!isDebug)
-            return;
         Logger logger = LogManager.getLogger(clazz);
         logger.info(message);
     }
@@ -79,8 +77,6 @@ public class LoggerUtils {
      * @param message 输出信息
      */
     public static void warn(Class<? extends Object> clazz, String message) {
-        if (!isDebug)
-            return;
         Logger logger = LogManager.getLogger(clazz);
         logger.warn(message);
     }
