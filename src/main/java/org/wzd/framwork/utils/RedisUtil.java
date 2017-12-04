@@ -24,7 +24,7 @@ public class RedisUtil {
     private static JedisPool pool = null;
     // redis连接
     private static RedisUtil ru = new RedisUtil();
-    public final String PATH_KEY = RedisUtil.class.getResource("").getPath().replaceAll("/|(:/)", "_").toUpperCase();
+    public static final String PATH_KEY = RedisUtil.class.getResource("").getPath().replaceAll("/|(:/)", "_").toUpperCase();
 
     public static JedisPool getPool() {
         return pool;
