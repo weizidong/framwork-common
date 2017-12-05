@@ -13,6 +13,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,10 +32,13 @@ public class JPushUtil {
         return pros.getProperty("MASTER_SECRET");
     }
 
+    private static Boolean isClose() {
+        String close = pros.getProperty("close");
+        return StringUtils.equalsIgnoreCase(close, "true") ? Boolean.TRUE : Boolean.FALSE;
+    }
+
     /**
      * 快捷地构建推送对象：所有平台，所有设备，内容为 msg 的通知。
-     *
-     * @return
      */
     public static PushPayload buildPushObject_all_all_alert(String msg) {
         return PushPayload.alertAll(msg);
@@ -42,8 +46,6 @@ public class JPushUtil {
 
     /**
      * 构建推送对象：所有平台，推送目标是别名为 "alias"，通知内容为 msg。
-     *
-     * @return
      */
     public static PushPayload buildPushObject_all_alias_alert(String alias, String msg) {
         return PushPayload.newBuilder()
@@ -55,8 +57,6 @@ public class JPushUtil {
 
     /**
      * 构建推送对象：平台是 Android，目标是 tag 为 "tag" 的设备，内容是 Android 通知 msg，并且标题为 title。
-     *
-     * @return
      */
     public static PushPayload buildPushObject_android_tag_alertWithTitle(String tag, String msg, String title) {
         return PushPayload.newBuilder()
@@ -76,8 +76,6 @@ public class JPushUtil {
      * 消息内容是 content。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。
      * <p>
      * APNs 的推送环境是“生产”（如果不显式设置的话，Library 会默认指定为开发）
-     *
-     * @return
      */
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage(String alert, int badge, String sound, String content, String extra_key, String extra_val, String... tags) {
         return PushPayload.newBuilder()
@@ -104,6 +102,9 @@ public class JPushUtil {
      * @param msg   消息内容
      */
     public static void sendSinglePush(String tag, String title, String msg) {
+        if (isClose()) {
+            return;
+        }
         JPushClient jpushClient = new JPushClient(getMasterSecret(), getAppKey(), null, ClientConfig.getInstance());
         PushPayload payload = buildPushObject_android_and_iosSingle(tag, title, msg);
         try {
@@ -131,7 +132,6 @@ public class JPushUtil {
      *
      * @param tag 目标
      * @param msg 内容
-     * @return
      */
     public static PushPayload buildPushObject_android_and_iosSingle(String tag, String title, String msg) {
         return PushPayload.newBuilder()
@@ -151,6 +151,9 @@ public class JPushUtil {
      * @param msg   内容
      */
     public static void sendPush(String title, String msg) {
+        if (isClose()) {
+            return;
+        }
         JPushClient jpushClient = new JPushClient(getMasterSecret(), getAppKey(), null, ClientConfig.getInstance());
         PushPayload payload = buildPushObject_android_and_ios(title, msg);
         try {
