@@ -84,7 +84,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(value, clazz);
+        return value != null ? JSON.parseObject(value, clazz) : null;
     }
 
     public <T> List<T> getList(String key, Class<T> clazz) {
@@ -98,7 +98,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseArray(value, clazz);
+        return value != null ? JSON.parseArray(value, clazz) : null;
     }
 
     /**
@@ -335,7 +335,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(res, clazz);
+        return res != null ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -456,7 +456,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(res, clazz);
+        return res != null ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -478,7 +478,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseArray(res, clazz);
+        return res != null ? JSON.parseArray(res, clazz) : null;
     }
 
     /**
@@ -687,7 +687,7 @@ public class RedisUtil {
         Long res = null;
         try {
             jedis = pool.getResource();
-            String[] strs = Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray(String[]::new);
+            String[] strs = Arrays.stream(objs).map(JSON::toJSONString).toArray(String[]::new);
             res = jedis.lpush(key, strs);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -716,7 +716,7 @@ public class RedisUtil {
         Long res = null;
         try {
             jedis = pool.getResource();
-            String[] strs = Arrays.asList(objs).stream().map((obj) -> JSON.toJSONString(obj)).toArray(String[]::new);
+            String[] strs = Arrays.stream(objs).map(JSON::toJSONString).toArray(String[]::new);
             res = jedis.rpush(key, strs);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -859,7 +859,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(res, clazz);
+        return res != null ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -880,7 +880,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(res, clazz);
+        return res != null ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -912,7 +912,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(res, clazz);
+        return res != null ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -940,7 +940,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return JSON.parseObject(res, clazz);
+        return res != null ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
