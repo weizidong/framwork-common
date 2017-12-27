@@ -84,7 +84,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return value != null ? JSON.parseObject(value, clazz) : null;
+        return StringUtils.isNotBlank(value) ? JSON.parseObject(value, clazz) : null;
     }
 
     public <T> List<T> getList(String key, Class<T> clazz) {
@@ -98,7 +98,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return value != null ? JSON.parseArray(value, clazz) : null;
+        return StringUtils.isNotBlank(value) ? JSON.parseArray(value, clazz) : null;
     }
 
     /**
@@ -335,7 +335,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseObject(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -456,7 +456,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseObject(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -478,7 +478,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseArray(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseArray(res, clazz) : null;
     }
 
     /**
@@ -859,7 +859,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseObject(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -880,7 +880,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseObject(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -912,7 +912,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseObject(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
@@ -940,7 +940,7 @@ public class RedisUtil {
         } finally {
             returnResource(pool, jedis);
         }
-        return res != null ? JSON.parseObject(res, clazz) : null;
+        return StringUtils.isNotBlank(res) ? JSON.parseObject(res, clazz) : null;
     }
 
     /**
