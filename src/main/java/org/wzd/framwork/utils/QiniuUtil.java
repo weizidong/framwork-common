@@ -29,7 +29,7 @@ public class QiniuUtil {
     public static void delFile(Zone zone, String key) {
         BucketManager bucketManager = new BucketManager(auth, new Configuration(zone));
         try {
-            bucketManager.delete(bucket, key);
+            bucketManager.delete(bucket, key.replace(url, ""));
         } catch (QiniuException e) {
             LoggerUtils.error(QiniuUtil.class, "删除文件失败！", e);
         }
