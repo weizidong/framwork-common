@@ -20,11 +20,26 @@ public class QiniuUtil {
     public static final String url = qiniuPro.getProperty("url");
     public static final Auth auth = Auth.create(qiniuPro.getProperty("AK"), qiniuPro.getProperty("SK"));
 
-    public static void delFile(Zone zone, String key) throws QiniuException {
+    /**
+     * 删除文件
+     *
+     * @param zone 上传文件区
+     * @param key  文件key
+     */
+    public static void delFile(Zone zone, String key) {
         BucketManager bucketManager = new BucketManager(auth, new Configuration(zone));
-        bucketManager.delete(bucket, key);
+        try {
+            bucketManager.delete(bucket, key);
+        } catch (QiniuException e) {
+            LoggerUtils.error(QiniuUtil.class, "删除文件失败！", e);
+        }
     }
 
+    /**
+     * 获取上传token签名
+     *
+     * @param body 签名内容
+     */
     public static String uploadToken(Map<String, String> body) {
         StringMap policy = new StringMap();
         policy.put("returnBody", JSON.toJSONString(body));
