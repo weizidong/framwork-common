@@ -1,4 +1,4 @@
-package org.weizidong.conmon.utils;
+package org.weizidong.common.utils;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;

@@ -1,4 +1,4 @@
-package org.weizidong.conmon.utils;
+package org.weizidong.common.utils;
 
 import java.io.InputStream;
 import java.io.StringReader;

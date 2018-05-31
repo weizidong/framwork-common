@@ -1,4 +1,4 @@
-package org.weizidong.conmon.utils;
+package org.weizidong.common.utils;
 
 import java.util.List;
 import java.util.function.Function;

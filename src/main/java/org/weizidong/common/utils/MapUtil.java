@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.weizidong.conmon.utils;
+package org.weizidong.common.utils;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;

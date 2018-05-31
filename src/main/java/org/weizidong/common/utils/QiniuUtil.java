@@ -1,4 +1,4 @@
-package org.weizidong.conmon.utils;
+package org.weizidong.common.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.qiniu.common.QiniuException;

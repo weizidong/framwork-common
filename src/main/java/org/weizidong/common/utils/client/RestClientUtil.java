@@ -1,10 +1,10 @@
-package org.weizidong.conmon.utils.client;
+package org.weizidong.common.utils.client;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.support.jaxrs.FastJsonProvider;
 import org.glassfish.jersey.client.ClientConfig;
-import org.weizidong.conmon.utils.client.filter.log.LogRequestFilter;
-import org.weizidong.conmon.utils.client.filter.log.LogResponseFilter;
+import org.weizidong.common.utils.client.filter.log.LogResponseFilter;
+import org.weizidong.common.utils.client.filter.log.LogRequestFilter;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
