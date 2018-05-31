@@ -9,6 +9,9 @@ import java.util.concurrent.*;
  * @author WeiZiDong
  */
 public class ThreadPoolUtil {
+    private ThreadPoolUtil() {
+    }
+
     /**
      * 创建可缓存的线程池
      */

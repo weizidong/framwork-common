@@ -14,8 +14,27 @@ import java.util.Date;
  * @author WeiZiDong
  */
 public class FileUtil {
-    public static final String RESOURCE_URL = "/userfiles/";
-    public static String BASE_PATH = "";
+    private FileUtil() {
+    }
+
+    /**
+     * 文件存储目录
+     */
+    public static final String RESOURCE_URL = File.separator + "userfiles" + File.separator;
+    /**
+     * 项目根路径判定
+     */
+    public static String BASE_PATH;
+
+    static {
+        String basePath = System.getProperty("jetty.home");
+        if (basePath == null) {
+            BASE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "webapp";
+        } else {
+            BASE_PATH = basePath + File.separator + "webapps";
+        }
+    }
+
     /**
      * 文件名
      */
@@ -53,14 +72,6 @@ public class FileUtil {
         this.suffix = suffix;
     }
 
-    static {
-        String basePath = System.getProperty("jetty.home");
-        if (basePath == null) {
-            BASE_PATH = System.getProperty("user.dir") + "/src/main/webapp";
-        } else {
-            BASE_PATH = basePath + "/webapps";
-        }
-    }
 
     /**
      * 写文件到硬盘，返回相对路径
@@ -74,16 +85,12 @@ public class FileUtil {
             // 后缀
             String ext = fullName.substring(fullName.lastIndexOf("."), fullName.length());
             // 相对路径
-            String folder = RESOURCE_URL + DateUtil.dateToString(new Date(), DateUtil.PDATE2) + "/";
+            String folder = RESOURCE_URL + DateUtil.format(new Date(), DateUtil.P_DATE_2) + File.separator;
             // 绝对路径
             String path = BASE_PATH + folder + fileName + ext;
             // 生成目录
-            File store = new File(BASE_PATH + folder);
-            if (!store.exists()) {
-                store.mkdirs();
-            }
-            store = new File(path);
-            FileUtils.copyInputStreamToFile(file, store);
+            mkdirs(BASE_PATH + folder);
+            FileUtils.copyInputStreamToFile(file, new File(path));
             // 返回值
             FileUtil f = new FileUtil();
             f.setName(fullName.substring(0, fullName.length() - 4));
@@ -97,11 +104,25 @@ public class FileUtil {
 
     /**
      * 删除文件
+     *
+     * @param url 文件相对路径
      */
     public static void delete(String url) {
         File file = new File(BASE_PATH + url);
         if (file.isFile() && file.exists()) {
             file.delete();
+        }
+    }
+
+    /**
+     * 当文件夹不存在时，mkdirs会自动创建多层目录，区别于mkdir． (mkdir如果父目录不存在则会抛出异常)
+     *
+     * @param destPath 文件夹路径
+     */
+    public static void mkdirs(String destPath) {
+        File file = new File(destPath);
+        if (!file.exists() || !file.isDirectory()) {
+            file.mkdirs();
         }
     }
 }

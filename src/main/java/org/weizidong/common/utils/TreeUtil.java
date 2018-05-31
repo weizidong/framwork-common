@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
  * @author WeiZiDong
  */
 public class TreeUtil {
+    private TreeUtil() {
+    }
 
     /**
      * 构建节点树

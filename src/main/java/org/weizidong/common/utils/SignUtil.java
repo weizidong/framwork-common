@@ -14,6 +14,9 @@ import java.util.UUID;
  * @author WeiZiDong
  */
 public class SignUtil {
+    private SignUtil() {
+    }
+
     /**
      * JSApi票据签名
      *
@@ -23,7 +26,7 @@ public class SignUtil {
      */
     public static Map<String, String> sign(String jsApiTicket, String url) {
         Map<String, String> ret = new HashMap<>(16);
-        String nonceStr = createNonceStr();
+        String nonceStr = MathUtil.getUUID();
         String timestamp = createTimestamp();
         String string1;
         String signature = "";
@@ -54,10 +57,6 @@ public class SignUtil {
         String result = formatter.toString();
         formatter.close();
         return result;
-    }
-
-    private static String createNonceStr() {
-        return UUID.randomUUID().toString();
     }
 
     private static String createTimestamp() {

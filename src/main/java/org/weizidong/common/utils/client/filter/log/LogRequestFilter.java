@@ -1,30 +1,25 @@
 package org.weizidong.common.utils.client.filter.log;
 
-import java.io.IOException;
+import org.weizidong.common.utils.LogUtil;
+import org.weizidong.common.utils.client.ClientUtil;
 
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.alibaba.fastjson.JSON;
-
 /**
  * 请求客户端日志记录过滤器
+ *
+ * @author WeiZiDong
  */
 public class LogRequestFilter implements ClientRequestFilter {
-	private static final Logger log = LogManager.getLogger(LogRequestFilter.class);
 
-	public static final String START_TS_PROPERTY = "_start_ts";
+    public static final String START_TS_PROPERTY = "_start_ts";
 
-	public void filter(ClientRequestContext requestContext) throws IOException {
-
-		log.info("发送请求到：" + requestContext.getUri());
-		log.info("参数：" + JSON.toJSONString(requestContext.getEntity()));
-		long startTs = System.currentTimeMillis();
-
-		requestContext.setProperty(START_TS_PROPERTY, startTs);
-	}
+    @Override
+    public void filter(ClientRequestContext requestContext) {
+        LogUtil.info(ClientUtil.class, "发送请求到：{}", requestContext.getUri());
+        LogUtil.info(ClientUtil.class, "参数：{}", requestContext.getEntity());
+        requestContext.setProperty(START_TS_PROPERTY, System.currentTimeMillis());
+    }
 
 }

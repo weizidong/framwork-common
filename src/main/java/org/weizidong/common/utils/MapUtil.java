@@ -1,27 +1,9 @@
-/*
- * 微信公众平台(JAVA) SDK
- *
- * Copyright (c) 2014, Ansitech Network Technology Co.,Ltd All rights reserved.
- * 
- * http://www.weixin4j.org/sdk/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.weizidong.common.utils;
 
-import org.w3c.dom.DOMException;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -35,12 +17,14 @@ import java.net.URLEncoder;
 import java.util.*;
 
 /**
- * MapUtil业务
+ * map工具类
  *
- * @author weixin4j<weixin4j@ansitech.com>
- * @version 1.0
+ * @author WeiZiDong
+ * @date 2018-05-31
  */
 public class MapUtil {
+    private MapUtil() {
+    }
 
     /**
      * Map key 升序排序
@@ -50,13 +34,12 @@ public class MapUtil {
      * @param map 需排序的map集合
      * @return 排序后的map集合
      */
-    public static Map<String, String> sortAsc(Map<String, String> map) {
-        HashMap<String, String> tempMap = new LinkedHashMap<>();
-        List<Map.Entry<String, String>> infoIds = new ArrayList<>(map.entrySet());
+    public static <T> Map<String, T> sortAsc(Map<String, T> map) {
+        HashMap<String, T> tempMap = new LinkedHashMap<>();
+        List<Map.Entry<String, T>> infoIds = new ArrayList<>(map.entrySet());
         //排序
         infoIds.sort(Comparator.comparing(Map.Entry::getKey));
-
-        for (Map.Entry<String, String> item : infoIds) {
+        for (Map.Entry<String, T> item : infoIds) {
             tempMap.put(item.getKey(), item.getValue());
         }
         return tempMap;
@@ -72,21 +55,19 @@ public class MapUtil {
     public static String mapJoin(Map<String, String> map, boolean valueUrlEncode) {
         StringBuilder sb = new StringBuilder();
         for (String key : map.keySet()) {
-            if (map.get(key) != null && !"".equals(map.get(key))) {
+            if (StringUtils.isNotBlank(map.get(key))) {
                 try {
                     String temp = (key.endsWith("_") && key.length() > 1) ? key.substring(0, key.length() - 1) : key;
-                    sb.append(temp);
-                    sb.append("=");
+                    sb.append(temp).append("=");
                     //获取到map的值
                     String value = map.get(key);
                     //判断是否需要url编码
                     if (valueUrlEncode) {
                         value = URLEncoder.encode(map.get(key), "utf-8").replace("+", "%20");
                     }
-                    sb.append(value);
-                    sb.append("&");
+                    sb.append(value).append("&");
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    LogUtil.error(MapUtil.class, e);
                 }
             }
         }
@@ -108,14 +89,14 @@ public class MapUtil {
             Document document = documentBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
             Element element = document.getDocumentElement();
             NodeList nodeList = element.getChildNodes();
-            Map<String, String> map = new LinkedHashMap<String, String>();
+            Map<String, String> map = new LinkedHashMap<>();
             for (int i = 0; i < nodeList.getLength(); i++) {
-                Element e = (Element) nodeList.item(i);
+                Node e = nodeList.item(i);
                 map.put(e.getNodeName(), e.getTextContent());
             }
             return map;
-        } catch (DOMException | ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            LogUtil.error(MapUtil.class, e);
         }
         return null;
     }

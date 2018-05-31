@@ -22,11 +22,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Excel工具类
+ * Excel工具类 TODO 重写
  *
  * @author WeiZiDong
  */
-public class PoiExcelUtils {
+public class PoiExcelUtil {
     /**
      * 数字格式化
      */
@@ -34,7 +34,7 @@ public class PoiExcelUtils {
     /**
      * 日志
      */
-    private static final Logger LOGGER = LogManager.getLogger(PoiExcelUtils.class);
+    private static final Logger LOGGER = LogManager.getLogger(PoiExcelUtil.class);
     /**
      * 列默认宽度
      */
@@ -274,7 +274,7 @@ public class PoiExcelUtils {
         } else if (cellValue instanceof Boolean) {
             cell.setCellValue((Boolean) cellValue);
         } else if (cellValue instanceof Date) {
-            cell.setCellValue(DateUtil.formatDate((Date) cellValue, DateUtil.P_DATETIME));
+            cell.setCellValue(DateUtil.format((Date) cellValue, DateUtil.P_DATETIME));
         } else if (cellValue instanceof Calendar) {
             cell.setCellValue((Calendar) cellValue);
         } else if (cellValue instanceof Double) {
@@ -302,11 +302,11 @@ public class PoiExcelUtils {
         } else if ("age".equals(type)) {
             return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.getAge((Date) val);
         } else if ("date".equals(type)) {
-            return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATE);
+            return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.format((Date) val, DateUtil.P_DATE);
         } else if ("time".equals(type)) {
-            return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_TIME);
+            return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.format((Date) val, DateUtil.P_TIME);
         } else if ("datetime".equals(type)) {
-            return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.formatDate((Date) val, DateUtil.P_DATETIME);
+            return val == null || StringUtils.isBlank(val.toString()) ? "无" : DateUtil.format((Date) val, DateUtil.P_DATETIME);
         } else if (val == null || StringUtils.isBlank(val.toString())) {
             return "无";
         }
@@ -386,7 +386,7 @@ public class PoiExcelUtils {
         // 文件名
         String fileName = System.currentTimeMillis() + ".xls";
         // 相对路径
-        String folder = DOWNLOAD_URL + DateUtil.dateToString(new Date(), DateUtil.PDATE2) + "/";
+        String folder = DOWNLOAD_URL + DateUtil.format(new Date(), DateUtil.P_DATE_1) + "/";
         // 绝对路径
         String path = basePath + folder + fileName;
         // 生成目录
@@ -429,7 +429,7 @@ public class PoiExcelUtils {
         }
         LOGGER.debug("【生成Excel,并存放到指定文件夹目录下】sheetName : " + sheetName + " , title : " + title + " , basePath : " + basePath + " , headers : "
                 + Arrays.toString(headers));
-        PoiExcelUtils poiExcelUtil = new PoiExcelUtils();
+        PoiExcelUtil poiExcelUtil = new PoiExcelUtil();
         // 1.创建 Workbook
         HSSFWorkbook hssfWorkbook = poiExcelUtil.getHSSFWorkbook();
         // 2.创建 Sheet
@@ -479,7 +479,7 @@ public class PoiExcelUtils {
         }
         LOGGER.debug("【生成Excel,并存放到指定文件夹目录下】sheetName : " + sheetName + " , title : " + title + " , filePath : " + filePath + " , headers : "
                 + Arrays.toString(headers));
-        PoiExcelUtils poiExcelUtil = new PoiExcelUtils();
+        PoiExcelUtil poiExcelUtil = new PoiExcelUtil();
         // 1.创建 Workbook
         HSSFWorkbook hssfWorkbook = poiExcelUtil.getHSSFWorkbook();
         // 2.创建 Sheet
@@ -683,7 +683,7 @@ public class PoiExcelUtils {
         cell4ExortDate.setCellStyle(cellStyle);
         // 导出日期的值
         HSSFCell cell4ExportDateValue = row.createCell(cellIndex + 1);
-        cellValueHandler(cell4ExportDateValue, DateUtil.dateToString(new Date(), DateUtil.P_DATETIME));
+        cellValueHandler(cell4ExportDateValue, DateUtil.format(new Date(), DateUtil.P_DATETIME));
         cell4ExportDateValue.setCellStyle(cellStyle);
     }
 
@@ -707,7 +707,7 @@ public class PoiExcelUtils {
             throw new RuntimeException("表头不能为空");
         }
         LOGGER.debug("【生成Excel的WorkBook，用于导出Excel】sheetName : " + sheetName + " , title : " + title + "  , headers : " + Arrays.toString(headers));
-        PoiExcelUtils poiExcelUtil = new PoiExcelUtils();
+        PoiExcelUtil poiExcelUtil = new PoiExcelUtil();
         // 1.创建 Workbook
         HSSFWorkbook hssfWorkbook = poiExcelUtil.getHSSFWorkbook();
         // 2.创建 Sheet
@@ -756,7 +756,7 @@ public class PoiExcelUtils {
         }
         LOGGER.debug("【生成Excel,用于导出】sheetName : " + sheetName + " , title : " + title + " , headers : " + Arrays.toString(headers) + " , mainDataFields = "
                 + Arrays.toString(mainDataFields));
-        PoiExcelUtils poiExcelUtil = new PoiExcelUtils();
+        PoiExcelUtil poiExcelUtil = new PoiExcelUtil();
         // 1.创建 Workbook
         HSSFWorkbook hssfWorkbook = poiExcelUtil.getHSSFWorkbook();
         // 2.创建 Sheet
@@ -778,7 +778,7 @@ public class PoiExcelUtils {
      * @param excelPath   excel的路径
      * @param skipRows    需要跳过的行数
      * @param columnCount 列数量
-     * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
+     * @return List<String   [   ]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
      */
     public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount) throws Exception {
         return readExcel(excelPath, skipRows, columnCount, 0, null);
@@ -791,7 +791,7 @@ public class PoiExcelUtils {
      * @param skipRows    需要跳过的行数
      * @param columnCount 列数量
      * @param sheetNo     要读取的sheet的索引，从0开始
-     * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
+     * @return List<String   [   ]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
      */
     public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, int sheetNo) throws Exception {
         return readExcel(excelPath, skipRows, columnCount, sheetNo, null);
@@ -804,7 +804,7 @@ public class PoiExcelUtils {
      * @param skipRows                  需要跳过的行数
      * @param columnCount               列数量
      * @param noneCellValuePositionList 存储空值的单元格的坐标，每个坐标以x-y的形式拼接，如2-5表示第二行第五列
-     * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
+     * @return List<String   [   ]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
      */
     public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, List<String> noneCellValuePositionList) throws Exception {
         return readExcel(excelPath, skipRows, columnCount, 0, noneCellValuePositionList);
@@ -818,7 +818,7 @@ public class PoiExcelUtils {
      * @param columnCount                         列数量
      * @param columnNumberForSkipValueValidateSet 不需要做空值验证的列的索引集合
      * @param noneCellValuePositionList           存储空值的单元格的坐标，每个坐标以x-y的形式拼接，如2-5表示第二行第五列
-     * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
+     * @return List<String   [   ]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
      */
     public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, Set<Integer> columnNumberForSkipValueValidateSet,
                                            List<String> noneCellValuePositionList) throws Exception {
@@ -833,7 +833,7 @@ public class PoiExcelUtils {
      * @param columnCount               列数量
      * @param sheetNo                   要读取的sheet的索引，从0开始
      * @param noneCellValuePositionList 存储空值的单元格的坐标，每个坐标以x-y的形式拼接，如2-5表示第二行第五列
-     * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
+     * @return List<String   [   ]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
      */
     public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, int sheetNo, List<String> noneCellValuePositionList)
             throws Exception {
@@ -849,7 +849,7 @@ public class PoiExcelUtils {
      * @param sheetNo                             要读取的sheet的索引，从0开始
      * @param columnNumberForSkipValueValidateSet 不需要做空值验证的列的索引集合
      * @param noneCellValuePositionList           存储空值的单元格的坐标，每个坐标以x-y的形式拼接，如2-5表示第二行第五列
-     * @return List<String[]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
+     * @return List<String   [   ]> 集合中每一个元素是一个数组，按单元格索引存储每个单元格的值，一个元素可以封装成一个需要的java bean
      */
     public static List<String[]> readExcel(String excelPath, int skipRows, int columnCount, int sheetNo, Set<Integer> columnNumberForSkipValueValidateSet,
                                            List<String> noneCellValuePositionList) throws Exception {
@@ -963,27 +963,27 @@ public class PoiExcelUtils {
     public static void main(String[] args) {
         /*
          * 格式化类型有： if ("sex".equals(type)) { return "1".equals(val.toString()) ? "男" :
-		 * "2".equals(val.toString()) ? "女" : "未知"; } else if ("sub".equals(type)) {
-		 * return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知"; } else if
-		 * ("audit".equals(type)) { return "1" == val ? "审核中" : "2" == val ? "审核成功" :
-		 * "3" == val ? "审核失败" : "未审核"; } else if ("mar".equals(type)) { return "1" ==
-		 * val ? "已婚" : "2" == val ? "未婚" : "未知"; } else if ("user".equals(type)) {
-		 * return "2" == val ? "职工认证用户" : "普通用户"; } else if ("exp".equals(type)) {
-		 * return (Boolean) val ? "有" : "无"; } else if ("age".equals(type)) { return val
-		 * == null ? "无" : DateUtil.getAge((Date) val); } else if ("date".equals(type))
-		 * { return val == null ? "无" : DateUtil.formatDate((Date) val,
-		 * DateUtil.P_DATE); } else if ("time".equals(type)) { return val == null ? "无"
-		 * : DateUtil.formatDate((Date) val, DateUtil.P_TIME); } else if
-		 * ("datetime".equals(type)) { return val == null ? "无" :
-		 * DateUtil.formatDate((Date) val, DateUtil.P_DATETIME); } else if
-		 * (StringUtils.isBlank(val.toString())) { return "无"; }
-		 */
+         * "2".equals(val.toString()) ? "女" : "未知"; } else if ("sub".equals(type)) {
+         * return "1" == val ? "已关注" : "0" == val ? "未关注" : "未知"; } else if
+         * ("audit".equals(type)) { return "1" == val ? "审核中" : "2" == val ? "审核成功" :
+         * "3" == val ? "审核失败" : "未审核"; } else if ("mar".equals(type)) { return "1" ==
+         * val ? "已婚" : "2" == val ? "未婚" : "未知"; } else if ("user".equals(type)) {
+         * return "2" == val ? "职工认证用户" : "普通用户"; } else if ("exp".equals(type)) {
+         * return (Boolean) val ? "有" : "无"; } else if ("age".equals(type)) { return val
+         * == null ? "无" : DateUtil.getAge((Date) val); } else if ("date".equals(type))
+         * { return val == null ? "无" : DateUtil.format((Date) val,
+         * DateUtil.P_DATE); } else if ("time".equals(type)) { return val == null ? "无"
+         * : DateUtil.format((Date) val, DateUtil.P_TIME); } else if
+         * ("datetime".equals(type)) { return val == null ? "无" :
+         * DateUtil.format((Date) val, DateUtil.P_DATETIME); } else if
+         * (StringUtils.isBlank(val.toString())) { return "无"; }
+         */
         /*
          * 多个字段显示在同一单元格.用|隔开,例如:起止时间@start|end@datetime@4000
-		 */
+         */
         String[] headers = new String[]{"列标题@bean字段@格式化类型@列宽"};
         List<Object> dataList = new ArrayList<>();
-        PoiExcelUtils.createExcel2FilePath("XXXX表", "XXXX表单", "/excel/XXXX.exl", headers, dataList);
+        PoiExcelUtil.createExcel2FilePath("XXXX表", "XXXX表单", "/excel/XXXX.exl", headers, dataList);
     }
 
 }

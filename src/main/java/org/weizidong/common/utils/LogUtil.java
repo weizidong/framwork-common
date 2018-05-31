@@ -1,6 +1,5 @@
 package org.weizidong.common.utils;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +10,9 @@ import org.apache.logging.log4j.Logger;
  */
 public class LogUtil {
     private static Logger log = LogManager.getLogger(LogUtil.class);
+
+    private LogUtil() {
+    }
 
     /**
      * 是否开启Debug
@@ -37,7 +39,7 @@ public class LogUtil {
      */
     public static void debug(Class clazz, Object message) {
         if (isDebug()) {
-            LogManager.getLogger(clazz).debug(JSON.toJSONString(message));
+            LogManager.getLogger(clazz).debug(message);
         }
     }
 
@@ -88,7 +90,7 @@ public class LogUtil {
      */
     public static void info(Class clazz, Object message) {
         if (isDebug()) {
-            LogManager.getLogger(clazz).info(JSON.toJSONString(message));
+            LogManager.getLogger(clazz).info(message);
         }
     }
 
@@ -138,7 +140,7 @@ public class LogUtil {
      */
     public static void warn(Class clazz, Object message) {
         if (isDebug()) {
-            LogManager.getLogger(clazz).warn(JSON.toJSONString(message));
+            LogManager.getLogger(clazz).warn(message);
         }
     }
 
@@ -188,7 +190,7 @@ public class LogUtil {
      */
     public static void error(Class clazz, Object message) {
         if (isDebug()) {
-            LogManager.getLogger(clazz).error(JSON.toJSONString(message));
+            LogManager.getLogger(clazz).error(message);
         }
     }
 

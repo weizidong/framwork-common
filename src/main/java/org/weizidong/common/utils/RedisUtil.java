@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Redis工具类
+ * Redis工具类 TODO 重写
  */
 public class RedisUtil {
     private static final Logger LOGGER = LogManager.getLogger(RedisUtil.class);
@@ -34,14 +34,14 @@ public class RedisUtil {
         if (pool == null) {
             PropertiesUtil pros = new PropertiesUtil("/configs/redis.properties");
             LOGGER.debug("读取redis配置...");
-            String ip = pros.getProperty("redis.ip");
-            String port = pros.getProperty("redis.port");
-            String pwd = pros.getProperty("redis.password");
-            String maxIdle = pros.getProperty("redis.maxIdle");
-            String minIdle = pros.getProperty("redis.minIdle");
-            String timeout = pros.getProperty("redis.timeout");
-            String maxWait = pros.getProperty("redis.maxWait");
-            String testOnBorrow = pros.getProperty("redis.testOnBorrow");
+            String ip = pros.get("redis.ip");
+            String port = pros.get("redis.port");
+            String pwd = pros.get("redis.password");
+            String maxIdle = pros.get("redis.maxIdle");
+            String minIdle = pros.get("redis.minIdle");
+            String timeout = pros.get("redis.timeout");
+            String maxWait = pros.get("redis.maxWait");
+            String testOnBorrow = pros.get("redis.testOnBorrow");
             JedisPoolConfig config = new JedisPoolConfig();
             // 控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；
             // 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。

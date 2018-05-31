@@ -14,6 +14,8 @@ import java.util.Random;
  * @author WeiZiDong
  */
 public class SignatureUtil {
+    private SignatureUtil() {
+    }
 
     /**
      * 数字签名是否合法
