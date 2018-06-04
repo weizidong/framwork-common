@@ -25,10 +25,10 @@ public class TestUtil {
 
     @Test
     public void test3() {
-        String old = "123456";
-        String password = AesUtil.encode("aes", old);
+        String old = "123";
+        String password = CryptoUtil.encode("ABCD1234", old, "AES");
         LogUtil.debug(getClass(), "明文：{} ===> 密文：{}", old, password);
-        old = AesUtil.decode("aes", password);
+        old = CryptoUtil.decode("ABCD1234", password, "AES");
         LogUtil.debug(getClass(), "原明文：{} ===> 密文：{} ===> 现明文：{}", old, password, old);
     }
 
