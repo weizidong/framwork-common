@@ -1,5 +1,7 @@
 package org.weizidong.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.*;
 import java.net.URI;
 import java.util.*;
@@ -54,6 +56,17 @@ public class PropertiesUtil {
         String res = props.getProperty(key);
         LogUtil.debug(getClass(), "读取：{} ===> {}", key, res);
         return res;
+    }
+
+    /**
+     * 获取某个属性
+     *
+     * @param key    键
+     * @param defVal 默认值
+     * @return 值
+     */
+    public String get(String key, String defVal) {
+        return StringUtils.defaultIfBlank(get(key), defVal);
     }
 
     /**
