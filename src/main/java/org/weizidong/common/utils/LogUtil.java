@@ -1,234 +1,122 @@
 package org.weizidong.common.utils;
 
+import com.alibaba.fastjson.JSON;
+import javafx.application.Platform;
+import javafx.scene.control.TextArea;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.text.MessageFormat;
+import java.util.Date;
+
 /**
- * 日志工具类
+ * 日志打印
  *
  * @author WeiZiDong
+ * @date 2018-07-23
  */
 public class LogUtil {
-    private static Logger log = LogManager.getLogger(LogUtil.class);
+  private LogUtil() {
+  }
+  /**
+   * 获取日志输出对象
+   *
+   * @param clazz 目标.Class
+   * @return 日志输出对象
+   */
+  public static Logger getLogger(Class clazz) {
+    return LogManager.getLogger(clazz);
+  }
+  /**
+   * 日志打印
+   */
+  private static void print(TextArea dialog, String msg) {
+    Platform.runLater(() -> {
+      if (dialog == null) {
+        return;
+      }
+      dialog.insertText(0, DateUtil.format(new Date(), DateUtil.P_TIMESTAMP) + "\t" + msg + "\n");
+      dialog.setScrollTop(0);
+      String str = dialog.getText();
+      String[] strs = str.split("\n");
+      if (strs.length > 1000) {
+        int last = str.lastIndexOf("\n");
+        dialog.deleteText(last - strs[strs.length - 1].length() - 1, last);
+      }
+    });
+  }
 
-    private LogUtil() {
+  /**
+   * 打印错误
+   */
+  public static void error(Class clazz, Throwable t, String pattern, Object... arguments) {
+    Logger logger = LogManager.getLogger(clazz);
+    if (logger.isErrorEnabled()) {
+      error(clazz, t, MessageFormat.format(pattern, arguments));
     }
+  }
 
-    /**
-     * 是否开启Debug
-     */
-    private static boolean isDebug() {
-        return log.isDebugEnabled();
+  /**
+   * 记录异常
+   */
+  public static void error(Class clazz, Throwable t, String msg) {
+    Logger logger = LogManager.getLogger(clazz);
+    if (logger.isErrorEnabled()) {
+      if (t instanceof ConnectException || t instanceof SocketException) {
+        logger.error(msg);
+      } else {
+        logger.error(msg, t);
+      }
     }
+  }
 
-    /**
-     * 获取日志输出对象
-     *
-     * @param clazz 目标.Class
-     * @return 日志输出对象
-     */
-    public static Logger getLogger(Class clazz) {
-        return LogManager.getLogger(clazz);
+  /**
+   * 记录异常
+   */
+  public static void error(Class clazz, Throwable t) {
+    Logger logger = LogManager.getLogger(clazz);
+    if (logger.isErrorEnabled()) {
+      logger.error(t.getMessage(), t);
     }
+  }
 
-    /**
-     * debug 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     */
-    public static void debug(Class clazz, Object message) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).debug(message);
-        }
+  /**
+   * 打印日志
+   */
+  public static void info(Class clazz, String pattern, Object... arguments) {
+    Logger logger = LogManager.getLogger(clazz);
+    if (logger.isInfoEnabled()) {
+      if (arguments.length > 0) {
+        logger.info(pattern, arguments);
+      } else {
+        logger.info(pattern);
+      }
     }
+  }
 
-    /**
-     * debug 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息格式
-     * @param params  输出信息参数
-     */
-    public static void debug(Class clazz, String message, Object... params) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).debug(message, params);
-        }
+  /**
+   * debug日志
+   */
+  public static void debug(Class clazz, String pattern, Object... arguments) {
+    Logger logger = LogManager.getLogger(clazz);
+    if (logger.isDebugEnabled()) {
+      if (arguments.length > 0) {
+        logger.debug(pattern, arguments);
+      } else {
+        logger.debug(pattern);
+      }
     }
+  }
 
-    /**
-     * debug 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     * @param t       堆栈信息
-     */
-    public static void debug(Class clazz, String message, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).debug(message, t);
-        }
+  /**
+   * debug日志
+   */
+  public static void debug(Class clazz, Object message) {
+    Logger logger = LogManager.getLogger(clazz);
+    if (logger.isDebugEnabled()) {
+      logger.debug(message);
     }
-
-    /**
-     * debug 输出
-     *
-     * @param clazz 目标.Class
-     * @param t     堆栈信息
-     */
-    public static void debug(Class clazz, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).debug(t.getMessage(), t);
-        }
-    }
-
-
-    /**
-     * info 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     */
-    public static void info(Class clazz, Object message) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(message);
-        }
-    }
-
-    /**
-     * info 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息格式
-     * @param params  输出信息参数
-     */
-    public static void info(Class clazz, String message, Object... params) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(message, params);
-        }
-    }
-
-    /**
-     * info 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     * @param t       堆栈信息
-     */
-    public static void info(Class clazz, String message, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(message, t);
-        }
-    }
-
-    /**
-     * info 输出
-     *
-     * @param clazz 目标.Class
-     * @param t     堆栈信息
-     */
-    public static void info(Class clazz, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(t.getMessage(), t);
-        }
-    }
-
-    /**
-     * warn 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     */
-    public static void warn(Class clazz, Object message) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).warn(message);
-        }
-    }
-
-    /**
-     * warn 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息格式
-     * @param params  输出信息参数
-     */
-    public static void warn(Class clazz, String message, Object... params) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(message, params);
-        }
-    }
-
-    /**
-     * warn 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     * @param t       堆栈信息
-     */
-    public static void warn(Class clazz, String message, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(message, t);
-        }
-    }
-
-    /**
-     * warn 输出
-     *
-     * @param clazz 目标.Class
-     * @param t     堆栈信息
-     */
-    public static void warn(Class clazz, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).info(t.getMessage(), t);
-        }
-    }
-
-    /**
-     * error 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     */
-    public static void error(Class clazz, Object message) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).error(message);
-        }
-    }
-
-    /**
-     * error 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息格式
-     * @param params  输出信息参数
-     */
-    public static void error(Class clazz, String message, Object... params) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).error(message, params);
-        }
-    }
-
-    /**
-     * error 输出
-     *
-     * @param clazz   目标.Class
-     * @param message 输出信息
-     * @param t       堆栈信息
-     */
-    public static void error(Class clazz, String message, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).error(message, t);
-        }
-    }
-
-    /**
-     * error 输出
-     *
-     * @param clazz 目标.Class
-     * @param t     堆栈信息
-     */
-    public static void error(Class clazz, Throwable t) {
-        if (isDebug()) {
-            LogManager.getLogger(clazz).error(t.getMessage(), t);
-        }
-    }
+  }
 }

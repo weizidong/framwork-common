@@ -14,11 +14,11 @@ import javax.ws.rs.client.ClientResponseFilter;
  */
 public class LogResponseFilter implements ClientResponseFilter {
 
-    @Override
-    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) {
-        long startTs = (Long) requestContext.getProperty(LogRequestFilter.START_TS_PROPERTY);
-        LogUtil.info(ClientUtil.class, "响应请求：{}", requestContext.getUri());
-        LogUtil.info(ClientUtil.class, "耗时(ms)：{}", (System.currentTimeMillis() - startTs));
-    }
+  @Override
+  public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) {
+    long startTs = (Long) requestContext.getProperty(LogRequestFilter.START_TS_PROPERTY);
+    LogUtil.info(ClientUtil.class, "响应请求：{}", requestContext.getUri());
+    LogUtil.info(ClientUtil.class, "耗时(ms)：{}", System.currentTimeMillis() - startTs);
+  }
 
 }

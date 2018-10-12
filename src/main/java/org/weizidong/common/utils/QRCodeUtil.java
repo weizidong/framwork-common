@@ -140,7 +140,7 @@ public class QRCodeUtil {
      */
     public static String encode(String content, String logoPath, boolean needCompress) {
         BufferedImage image = createImage(content, logoPath, needCompress);
-        FileUtil.mkdirs(FileUtil.BASE_PATH + RESOURCE_URL);
+        FileUtil.mkDir(FileUtil.BASE_PATH + RESOURCE_URL);
         String fileName = System.currentTimeMillis() + new Random().nextInt(99999999) + "." + FORMAT.toLowerCase();
         try {
             ImageIO.write(image, FORMAT, new File(FileUtil.BASE_PATH + RESOURCE_URL + fileName));

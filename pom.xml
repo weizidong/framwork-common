@@ -131,6 +131,12 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>7.2.8</version>
         </dependency>
+        <!--commons-compress-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.17</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>common-utils</finalName>
